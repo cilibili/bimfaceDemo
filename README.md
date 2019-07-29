@@ -1,4 +1,4 @@
-# bimfaceDemo
+# bimfaceDemo-springboot
 自己练习的调用bimface java API 实现文件上传，解析等接口功能
 网上有bimface的demo但是是servlet和jsp实现的，自己利用springboot实现了。
 
