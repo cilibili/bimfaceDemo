@@ -1,0 +1,38 @@
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+#  data:
+#    mongodb:
+#      uri: mongodb://cb:123456@127.0.0.1:27017/bimfacedemo
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 4
+        max-wait: -1s
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/bimfacedemo?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+logging:
+  level:
+    com:
+      example:
+        bimfacedemo: debug
+server:
+  port: 8081
+#mybatis:
+#  config-location: classpath:mybatis/mybatis-config.xml
+#  mapper-locations: classpath:mybatis/mapper/*.xml
+
+#启用驼峰命名
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
