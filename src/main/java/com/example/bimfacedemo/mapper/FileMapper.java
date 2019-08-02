@@ -1,5 +1,6 @@
 package com.example.bimfacedemo.mapper;
 
+import com.example.bimfacedemo.entity.BimfileMessage;
 import com.example.bimfacedemo.entity.FileMessage;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,27 @@ import java.util.List;
 @Repository
 @Mapper
 public interface FileMapper {
+
+    @Insert("insert into bimfile_message (fileId ) values (#{fileId} )")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void saveFileId(BimfileMessage bimfileMessage);
+
+    @Select("select * from bimfile_message ")
+    List<BimfileMessage> getAllBimfileMessage();
+
+    @Select("select * from bimfile_message where id = #{id }")
+    BimfileMessage getBimfileMessageById(Integer id);
+
+    @Select("select * from bimfile_message where fileId = #{fileId }")
+    BimfileMessage getBimfileMessageByFileId(String fileId);
+
+    @Delete("delete from bimfile_message where id = #{id}")
+    void deleteBimfileMessageById(Integer id);
+
+    @Update("update bimfile_message set fileId = #{fileId}, viewToken = #{viewToken} where id = #{id}")
+    void updateBimfileMessage(BimfileMessage fileMessage);
+
+    // --------------------------上为bimfile_message表---下为file_message表--------------------------
 
     @Select("select * from file_message where id = #{id }")
     FileMessage getFileMessageById(Integer id);

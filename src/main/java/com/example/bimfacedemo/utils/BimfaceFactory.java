@@ -34,7 +34,7 @@ public class BimfaceFactory implements Serializable {
             APP_SECRET = properties.getProperty("APP_SECRET");
             resourceAsStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.debug("error", e);
             logger.error("读取bimfaceUser配置文件失败");
         }
     }

@@ -4,15 +4,19 @@ import com.bimface.api.bean.response.FileTranslateBean;
 import com.bimface.exception.BimfaceException;
 import com.bimface.file.bean.FileBean;
 import com.bimface.sdk.BimfaceClient;
+import com.example.bimfacedemo.entity.BimfileMessage;
+import com.example.bimfacedemo.mapper.FileMapper;
 import com.example.bimfacedemo.service.BimfaceFileService;
 import com.example.bimfacedemo.utils.BimfaceFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author by cb
@@ -21,6 +25,9 @@ import java.io.InputStream;
  */
 @Service
 public class BimfaceFileServiceImpl implements BimfaceFileService{
+
+    @Autowired
+    FileMapper fileMapper;
 
     private BimfaceClient bimfaceClient = new BimfaceFactory().getBimfaceClient();
     private Log logger = LogFactory.getLog(BimfaceFileServiceImpl.class);
@@ -48,10 +55,10 @@ public class BimfaceFileServiceImpl implements BimfaceFileService{
             logger.debug("文件上传成功");
         } catch (BimfaceException e) {
             logger.error("文件上传失败");
-            e.printStackTrace();
+            logger.debug("error", e);
         } catch (IOException e){
             logger.error("获取文件输入流失败");
-            e.printStackTrace();
+            logger.debug("error", e);
         }
         return upload;
     }
@@ -65,7 +72,7 @@ public class BimfaceFileServiceImpl implements BimfaceFileService{
             logger.debug("文件转换成功");
         } catch (BimfaceException e) {
             logger.error("文件转换失败");
-            e.printStackTrace();
+            logger.debug("error", e);
         }
         return translateBean;
     }
@@ -78,9 +85,35 @@ public class BimfaceFileServiceImpl implements BimfaceFileService{
             logger.debug("fieldId" + fieldId + "文件获取viewToken成功：" + viewToken);
         } catch (BimfaceException e) {
             logger.debug("文件获取viewToken失败");
-            e.printStackTrace();
+            logger.debug("error", e);
         }
         return viewToken;
+    }
+
+    @Override
+    public BimfileMessage saveFileId(String fileId) {
+        BimfileMessage bimfileMessage = new BimfileMessage(fileId);
+        fileMapper.saveFileId(bimfileMessage);
+        return bimfileMessage;
+    }
+
+    @Override
+    public BimfileMessage getBimfileMessageById(Integer id) {
+        return fileMapper.getBimfileMessageById(id);
+    }
+
+    @Override
+    public void updateBimfileViewTokenByFileId(String fileId, String fileViewToken) {
+        logger.debug("修改bimfile表请求参数：" + "fileId：" + fileId + " ，fileViewToken：" + fileViewToken);
+        BimfileMessage bimfileMessageByFileId = fileMapper.getBimfileMessageByFileId(fileId);
+        logger.debug("在表中查询到fileId:" + fileId + "对应的Bimfile信息为：" + bimfileMessageByFileId);
+        bimfileMessageByFileId.setViewToken(fileViewToken );
+        fileMapper.updateBimfileMessage(bimfileMessageByFileId);
+    }
+
+    @Override
+    public List<BimfileMessage> getAllBimfileMessage() {
+        return fileMapper.getAllBimfileMessage();
     }
 
 

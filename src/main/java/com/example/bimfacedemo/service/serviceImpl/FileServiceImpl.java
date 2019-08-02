@@ -59,7 +59,7 @@ public class FileServiceImpl implements FileService {
             out.flush();
             out.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.debug("error", e);
             return -1;
         }
         logger.debug("文件" + fileName + "上传成功，上传路径为：" + destPath + fileName );
@@ -103,13 +103,13 @@ public class FileServiceImpl implements FileService {
             result.put("code", 0);
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.debug("error", e);
         } finally {
             if (bis != null) {
                 try {
                     bis.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.debug("error", e);
                 }
             }
         }
@@ -177,20 +177,20 @@ public class FileServiceImpl implements FileService {
             result.put("code", 0);
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.debug("error", e);
         } finally {
             if (bis != null) {
                 try {
                     bis.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.debug("error", e);
                 }
             }
             if (bos != null) {
                 try {
                     bos.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.debug("error", e);
                 }
             }
         }
